@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="cat.js"></script>
+    <script src="mouse.js"></script>
+</head>
+<body>
+<canvas id="myCanvas" width="1368" height="768" style="border: solid 1px green"></canvas>
+<script>
+    let canvas = document.getElementById("myCanvas");
+    let ctx = canvas.getContext('2d');
+    let cat = new Cat(100,0,150,150,30,'img/Tom_Tom_and_Jerry.png');
+    let mouse = new Mouse(1250,690,75,75,'img/angry-jerry-free-png-clip-art-image-5a1c4de5050404.1091707215118043890206.png')
+    cat.drawCat(ctx);
+    mouse.drawMouse(ctx);
+    function moveCat(event) {
+        switch (event.keyCode) {
+            case 37 : {
+                if (cat._x < 0){
+                    return;
+                }
+                cat._src = 'img/Tom_Tom_and_Jerry2222.png';
+                cat.moveLeft();
+                break;
+            }
+            case 39 : {
+                if (cat._x+cat._width > 1300){
+                    return;
+                }
+                cat._src = 'img/Tom_Tom_and_Jerry.png';
+                cat.moveRight();
+                break;
+            }
+            case 38 : {
+                if (cat._y < 20){
+                    return;
+                }
+                cat.moveUp();
+                break;
+            }
+            case 40 : {
+                if(cat._y + cat._height > 750){
+                    return;
+                }
+                cat.moveDown();
+                break;
+            }
+            case 82 : {
+                cat.upSpeed();
+                break;
+            }
+        }
+        updateCanvas();
+    }
+    function clearCanvas() {
+        ctx.clearRect(0,0,1368,768);
+    }
+    function moveMouse() {
+        if (mouse._y < 0){
+            mouse._y = 690;
+            mouse._x = Math.random()*1250;
+        }
+        mouse.mouseMoveUp();
+        updateCanvas();
+        requestAnimationFrame(moveMouse)
+    }
+    function updateCanvas() {
+        clearCanvas();
+        mouse.drawMouse(ctx);
+        cat.drawCat(ctx);
+    }
+    moveMouse();
+    document.addEventListener('keydown',moveCat);
+</script>
+</body>
+</html>
